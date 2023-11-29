@@ -31,10 +31,10 @@ function App() {
       <div className="mainWindow">
         <Routes>
           <Route
-            path="/"
+            path="/atomic-dex/swap"
             element={<Swap isConnected={isConnected} address={address} />}
           />
-          <Route path="/tokens" element={<Tokens />} />
+          <Route path="/atomic-dex/tokens" element={<Tokens />} />
         </Routes>
       </div>
     </div>

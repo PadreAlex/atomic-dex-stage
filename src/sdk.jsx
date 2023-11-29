@@ -13,6 +13,7 @@ const getImage = async (params) => {
       image_type: "DESKTOP",
     }
   );
+  console.log(data)
   return data.data;
 };
 
