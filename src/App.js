@@ -29,13 +29,7 @@ function App() {
         isMobile={false}
       />
       <div className="mainWindow">
-        <Routes>
-          <Route
-            path="/atomic-dex/swap"
-            element={<Swap isConnected={isConnected} address={address} />}
-          />
-          <Route path="/atomic-dex/tokens" element={<Tokens />} />
-        </Routes>
+            <Swap isConnected={isConnected} address={address} />
       </div>
     </div>
   );

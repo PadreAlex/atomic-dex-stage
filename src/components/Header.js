@@ -10,12 +10,12 @@ function Header(props) {
     <header>
       <div className="leftH">
         {/* <img src={Logo} alt="logo" className="logo" /> */}
-        <Link to="/" className="link">
+        {/* <Link to="/" className="link">
           <div className="headerItem">Swap</div>
         </Link>
         <Link to="/tokens" className="link">
           <div className="headerItem">Tokens</div>
-        </Link>
+        </Link> */}
       </div>
       <div className="rightH">
         <div className="headerItem">
