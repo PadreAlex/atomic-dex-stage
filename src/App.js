@@ -27,6 +27,7 @@ function App() {
         apiKey="DhoFm82C6XN2bbs3tnuGTIVF3IHedbNhYl5dqoCZVrrKajMePFbpLUZtd4LO17xbh36NjLbNZynbvri3OzOwiMfwJIjVH20Le2QdhS71QEpxJ71Hj7zZf1M1r0qbaZCx"
         walletConnected={address ? address : ""}
         isMobile={false}
+        bannerId="1"
       />
       <div className="mainWindow">
             <Swap isConnected={isConnected} address={address} />

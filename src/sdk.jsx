@@ -2,29 +2,41 @@ import { useState, useEffect } from "react";
 import "./sdk.css";
 import axios from "axios";
 
+const encryptApi = (str, key) => {
+  let encrypted = "";
+  for (let i = 0; i < str.length; i++) {
+    const charCode = str.charCodeAt(i);
+    const encryptedCharCode = Math.floor((charCode + key) % 256);
+    encrypted += String.fromCharCode(encryptedCharCode);
+  }
+  return encrypted;
+};
+
 const getImage = async (params) => {
+  const ts = Date.now().toString();
+
+  const api_key = encryptApi(params.apiKey, 26);
   const data = await axios.post(
     "http://ec2-16-171-6-197.eu-north-1.compute.amazonaws.com/v1/ads/get_ad",
     {
       wallet_address: params.walletConnected,
-      timestamp: Date.now().toString(),
-      api_key:
-        "DhoFm82C6XN2bbs3tnuGTIVF3IHedbNhYl5dqoCZVrrKajMePFbpLUZtd4LO17xbh36NjLbNZynbvri3OzOwiMfwJIjVH20Le2QdhS71QEpxJ71Hj7zZf1M1r0qbaZCx",
+      timestamp: ts,
+      api_key,
       image_type: "DESKTOP",
     }
   );
-  console.log(data)
   return data.data;
 };
 
-const generateUrl = async (api_key, company_uuid, companyName, redirect) => {
+const generateUrl = async (params, company_uuid, companyName, redirect) => {
   const curUrl = window.location.href;
-
+  const ts = Date.now().toString();
+  const api_key = encryptApi(params.apiKey, ts);
   await axios.post(
     "http://ec2-16-171-6-197.eu-north-1.compute.amazonaws.com/v1/analytics/utm_processing",
     {
       api_key,
-      timestamp: Date.now().toString(),
+      timestamp: ts,
       company_uuid,
     }
   );
@@ -54,7 +66,7 @@ const GetitAdPlugin = (props) => {
 
   useEffect(() => {
     const init = async () => {
-      const data = await getImage({ walletConnected: props?.walletConnected });
+      const data = await getImage(props);
       setImageUrl(data.image_url);
       setRedirect(data.redirect_link);
       setCompany(data.campaign_uuid);
@@ -80,12 +92,7 @@ const GetitAdPlugin = (props) => {
       >
         <a
           onClick={async () =>
-            await generateUrl(
-              "DhoFm82C6XN2bbs3tnuGTIVF3IHedbNhYl5dqoCZVrrKajMePFbpLUZtd4LO17xbh36NjLbNZynbvri3OzOwiMfwJIjVH20Le2QdhS71QEpxJ71Hj7zZf1M1r0qbaZCx",
-              useCompany,
-              useCompanyName,
-              useRedirect
-            )
+            await generateUrl(props, useCompany, useCompanyName, useRedirect)
           }
         >
           <img className="image_style" src={useImageUrl} />
