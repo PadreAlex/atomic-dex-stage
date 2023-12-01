@@ -17,7 +17,7 @@ const getImage = async (params) => {
 
   const api_key = encryptApi(params.apiKey, 26);
   const data = await axios.post(
-    "http://ec2-16-171-6-197.eu-north-1.compute.amazonaws.com/v1/ads/get_ad",
+    "https://v1.getittech.io/v1/ads/get_ad",
     {
       wallet_address: params.walletConnected,
       timestamp: ts,
@@ -33,7 +33,7 @@ const generateUrl = async (params, company_uuid, companyName, redirect) => {
   const ts = Date.now().toString();
   const api_key = encryptApi(params.apiKey, ts);
   await axios.post(
-    "http://ec2-16-171-6-197.eu-north-1.compute.amazonaws.com/v1/analytics/utm_processing",
+    "https://v1.getittech.io/v1/analytics/utm_processing",
     {
       api_key,
       timestamp: ts,
