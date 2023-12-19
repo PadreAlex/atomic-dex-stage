@@ -58,6 +58,7 @@ const OS = {
 const getUserDevice = () => {
   const ua = navigator.userAgent;
   let deviceType;
+  console.log(ua)
   for (const os in OS) {
     if (ua.includes(os)) {
       deviceType = os;
@@ -91,6 +92,8 @@ const GetitAdPlugin = (props) => {
       setRedirect(data.redirect_link);
       setCompany(data.campaign_uuid);
       setCompanyName(data.campaign_name);
+
+      getUserDevice()
     };
 
     init();
