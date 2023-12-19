@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./sdk.css";
 import axios from "axios";
 
 const encryptApi = (str, key) => {
@@ -14,43 +13,35 @@ const encryptApi = (str, key) => {
 
 const getImage = async (params) => {
   const ts = Date.now().toString();
-
   const api_key = encryptApi(params.apiKey, 26);
-  const data = await axios.post(
-    "https://v1.getittech.io/v1/ads/get_ad",
-    {
-      wallet_address: params.walletConnected,
-      timestamp: ts,
-      api_key,
-      image_type: "DESKTOP",
-    }
-  );
+  const data = await axios.post("https://v1.getittech.io/v1/ads/get_ad", {
+    wallet_address: params.walletConnected,
+    timestamp: ts,
+    api_key,
+    image_type: params.isMobile ? "MOBILE" : "DESKTOP",
+  });
   return data.data;
 };
 
-const generateUrl = async (params, company_uuid, companyName, redirect) => {
+const generateUrl = async (params, campaign_uuid, campaign_name, redirect) => {
   const curUrl = window.location.href;
   const ts = Date.now().toString();
-  const api_key = encryptApi(params.apiKey, ts);
-  await axios.post(
-    "https://v1.getittech.io/v1/analytics/utm_processing",
-    {
-      api_key,
-      timestamp: ts,
-      company_uuid,
-    }
-  );
-
+  const api_key = encryptApi(params.apiKey, 26);
+  await axios.post("https://v1.getittech.io/v1/analytics/utm_processing", {
+    api_key,
+    timestamp: ts,
+    campaign_uuid,
+  });
   window.open(
     redirect +
       "?utm_campaign=" +
-      companyName +
+      campaign_name +
       "&" +
       "utm_content=" +
-      "720" +
+      (params.isMobile ? "270" : "728") +
       "&" +
       "slot_id=" +
-      1 +
+      params.slotId +
       "&" +
       "utm_source=" +
       curUrl,
@@ -58,15 +49,44 @@ const generateUrl = async (params, company_uuid, companyName, redirect) => {
   );
 };
 
+const OS = {
+  win: "Win64",
+  iPhone: "CPU iPhone OS",
+  android: "Android",
+};
+
+const getUserDevice = () => {
+  const ua = navigator.userAgent;
+  let deviceType;
+  for (const os in OS) {
+    if (ua.includes(os)) {
+      deviceType = os;
+    }
+  }
+  if (deviceType == OS.android || deviceType == OS.iPhone) {
+    return true;
+  }
+  return false;
+};
+
+const getCountry = async () => {
+  const locationData = await axios.get("https://ipapi.co/json/");
+  const countryIso2 = locationData.data.country;
+  return countryIso2;
+};
+
 const GetitAdPlugin = (props) => {
-  const [useImageUrl, setImageUrl] = useState();
-  const [useRedirect, setRedirect] = useState();
-  const [useCompany, setCompany] = useState();
-  const [useCompanyName, setCompanyName] = useState();
+  const [useImageUrl, setImageUrl] = useState("");
+  const [useRedirect, setRedirect] = useState("");
+  const [useCompany, setCompany] = useState("");
+  const [useCompanyName, setCompanyName] = useState("");
 
   useEffect(() => {
     const init = async () => {
-      const data = await getImage(props);
+      const data= await getImage(props);
+      if (!data) {
+        return;
+      }
       setImageUrl(data.image_url);
       setRedirect(data.redirect_link);
       setCompany(data.campaign_uuid);
@@ -78,7 +98,16 @@ const GetitAdPlugin = (props) => {
 
   return (
     <div
-      className={`${props.isMobile ? "mobile_container" : "desktop_container"}`}
+      style={{
+        justifyContent: "center",
+        marginTop: 0,
+        marginBottom: 0,
+        marginLeft: "auto",
+        marginRight: "auto",
+        display: "flex",
+        height: "90px",
+        width: `${props.isMobile ? 270 + "px" : 728 + "px"}`,
+      }}
     >
       <div
         style={{
@@ -90,12 +119,18 @@ const GetitAdPlugin = (props) => {
           borderRadius: "10px",
         }}
       >
-        <a
-          onClick={async () =>
-            await generateUrl(props, useCompany, useCompanyName, useRedirect)
-          }
-        >
-          <img className="image_style" src={useImageUrl} />
+        <a onClick={async () => await generateUrl(props, useCompany, useCompanyName, useRedirect)}>
+          <img
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              verticalAlign: "middle",
+              borderRadius: "10px",
+              overflowClipMargin: "content-box",
+              overflow: "clip",
+            }}
+            src={useImageUrl}
+          />
         </a>
       </div>
     </div>

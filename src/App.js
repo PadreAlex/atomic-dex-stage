@@ -5,9 +5,10 @@ import Tokens from "./components/Tokens";
 import { Routes, Route } from "react-router-dom";
 import { useConnect, useAccount, useDisconnect } from "wagmi";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import GetitAdPlugin from "./sdk";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+// import { GetitAdPlugin } from "get-tmp-package";
+// import GetitAdPlugin from "./sdk";
+import GetitAdPlugin from './sdk'
 function App() {
   const { address, isConnected } = useAccount();
   const { connect } = useConnect({
@@ -27,10 +28,10 @@ function App() {
         apiKey="DhoFm82C6XN2bbs3tnuGTIVF3IHedbNhYl5dqoCZVrrKajMePFbpLUZtd4LO17xbh36NjLbNZynbvri3OzOwiMfwJIjVH20Le2QdhS71QEpxJ71Hj7zZf1M1r0qbaZCx"
         walletConnected={address ? address : ""}
         isMobile={false}
-        bannerId="1"
+        slotId="1"
       />
       <div className="mainWindow">
-            <Swap isConnected={isConnected} address={address} />
+        <Swap isConnected={isConnected} address={address} />
       </div>
     </div>
   );
