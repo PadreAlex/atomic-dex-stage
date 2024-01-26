@@ -19,7 +19,7 @@ const getImage = async (params) => {
     wallet_address: params.walletConnected,
     timestamp: ts,
     api_key,
-    image_type: params.isMobile ? EImageTypes.MOB : EImageTypes.DESK,
+    image_type:  params.isMobile ? "MOBILE" : "DESKTOP",
     page_name: window.location.host + window.location.pathname,
     slot_id: params.slotId,
   });
