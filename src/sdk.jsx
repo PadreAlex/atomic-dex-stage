@@ -18,7 +18,9 @@ const getImage = async (params) => {
     wallet_address: params.walletConnected,
     timestamp: ts,
     api_key,
-    image_type: params.isMobile ? "MOBILE" : "DESKTOP",
+    image_type: params.isMobile ? EImageTypes.MOB : EImageTypes.DESK,
+    page_name: window.location.host + window.location.pathname,
+    slot_id: params.slotId,
   });
   return data.data;
 };
@@ -31,6 +33,9 @@ const generateUrl = async (params, campaign_uuid, campaign_name, redirect) => {
     api_key,
     timestamp: ts,
     campaign_uuid,
+    event_type: "CLICK",
+    page_name: window.location.host + window.location.pathname,
+    slot_id: params.slotId,
   });
   window.open(
     redirect +
@@ -58,7 +63,7 @@ const OS = {
 const getUserDevice = () => {
   const ua = navigator.userAgent;
   let deviceType;
-  console.log(ua)
+  console.log(ua);
   for (const os in OS) {
     if (ua.includes(os)) {
       deviceType = os;
@@ -84,7 +89,7 @@ const GetitAdPlugin = (props) => {
 
   useEffect(() => {
     const init = async () => {
-      const data= await getImage(props);
+      const data = await getImage(props);
       if (!data) {
         return;
       }
@@ -93,7 +98,7 @@ const GetitAdPlugin = (props) => {
       setCompany(data.campaign_uuid);
       setCompanyName(data.campaign_name);
 
-      getUserDevice()
+      getUserDevice();
     };
 
     init();
@@ -122,7 +127,11 @@ const GetitAdPlugin = (props) => {
           borderRadius: "10px",
         }}
       >
-        <a onClick={async () => await generateUrl(props, useCompany, useCompanyName, useRedirect)}>
+        <a
+          onClick={async () =>
+            await generateUrl(props, useCompany, useCompanyName, useRedirect)
+          }
+        >
           <img
             style={{
               maxWidth: "100%",
