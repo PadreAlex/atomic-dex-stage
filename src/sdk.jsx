@@ -11,15 +11,14 @@ const encryptApi = (str, key) => {
   return encrypted;
 };
 
-
-const getImage = async (params) => {
+const getImage = async (params, isMobile) => {
   const ts = Date.now().toString();
   const api_key = encryptApi(params.apiKey, 26);
   const data = await axios.post("https://v1.getittech.io/v1/ads/get_ad", {
     wallet_address: params.walletConnected,
     timestamp: ts,
     api_key,
-    image_type:  params.isMobile ? "MOBILE" : "DESKTOP",
+    image_type: isMobile ? "MOBILE" : "DESKTOP",
     page_name: window.location.host + window.location.pathname,
     slot_id: params.slotId,
   });
@@ -87,10 +86,13 @@ const GetitAdPlugin = (props) => {
   const [useRedirect, setRedirect] = useState("");
   const [useCompany, setCompany] = useState("");
   const [useCompanyName, setCompanyName] = useState("");
+  const [userDevice, setUserDevice] = useState < boolean > false;
 
   useEffect(() => {
     const init = async () => {
-      const data = await getImage(props);
+      const isMobile = getUserDevice();
+      setUserDevice(isMobile);
+      const data = await getImage(props, userDevice);
       if (!data) {
         return;
       }
@@ -98,8 +100,6 @@ const GetitAdPlugin = (props) => {
       setRedirect(data.redirect_link);
       setCompany(data.campaign_uuid);
       setCompanyName(data.campaign_name);
-
-      getUserDevice();
     };
 
     init();
@@ -115,7 +115,7 @@ const GetitAdPlugin = (props) => {
         marginRight: "auto",
         display: "flex",
         height: "90px",
-        width: `${props.isMobile ? 270 + "px" : 728 + "px"}`,
+        width: `${userDevice ? 270 + "px" : 728 + "px"}`,
       }}
     >
       <div
