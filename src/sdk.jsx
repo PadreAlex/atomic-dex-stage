@@ -29,7 +29,7 @@ const generateUrl = async (params, campaign_uuid, campaign_name, redirect) => {
   const curUrl = window.location.href;
   const ts = Date.now().toString();
   const api_key = encryptApi(params.apiKey, 26);
-  await axios.post("https://v1.getittech.io/v1/analytics/utm_processing", {
+  await axios.post("https://v1.getittech.io/v1/utm/event", {
     api_key,
     timestamp: ts,
     campaign_uuid,
