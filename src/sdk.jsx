@@ -86,7 +86,7 @@ const GetitAdPlugin = (props) => {
   const [useRedirect, setRedirect] = useState("");
   const [useCompany, setCompany] = useState("");
   const [useCompanyName, setCompanyName] = useState("");
-  const [userDevice, setUserDevice] = useState < boolean > false;
+  const [userDevice, setUserDevice] = useState(false);
 
   useEffect(() => {
     const init = async () => {
