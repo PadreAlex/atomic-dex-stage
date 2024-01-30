@@ -12,6 +12,7 @@ const encryptApi = (str, key) => {
 };
 
 const getImage = async (params, isMobile) => {
+  console.log(isMobile)
   const ts = Date.now().toString();
   const api_key = encryptApi(params.apiKey, 26);
   const data = await axios.post("https://v1.getittech.io/v1/ads/get_ad", {
@@ -56,22 +57,18 @@ const generateUrl = async (params, campaign_uuid, campaign_name, redirect) => {
 
 const OS = {
   win: "Win64",
-  iPhone: "CPU iPhone OS",
+  iPhone: "iPhone",
   android: "Android",
 };
 
 const getUserDevice = () => {
   const ua = navigator.userAgent;
-  let deviceType;
-  console.log(ua);
-  for (const os in OS) {
-    if (ua.includes(os)) {
-      deviceType = os;
-    }
-  }
-  if (deviceType == OS.android || deviceType == OS.iPhone) {
+
+  if (ua.toLowerCase().includes(OS.iPhone.toLowerCase()) || ua.toLowerCase().includes(OS.android.toLowerCase())) {
+    console.log(OS.iPhone)
     return true;
   }
+
   return false;
 };
 
@@ -92,7 +89,7 @@ const GetitAdPlugin = (props) => {
     const init = async () => {
       const isMobile = getUserDevice();
       setUserDevice(isMobile);
-      const data = await getImage(props, userDevice);
+      const data = await getImage(props, isMobile);
       if (!data) {
         return;
       }
@@ -114,7 +111,7 @@ const GetitAdPlugin = (props) => {
         marginLeft: "auto",
         marginRight: "auto",
         display: "flex",
-        height: "90px",
+        height: !isNaN(props.height) ? props.height.toString() + "px" : "90px",
         width: `${userDevice ? 270 + "px" : 728 + "px"}`,
       }}
     >
