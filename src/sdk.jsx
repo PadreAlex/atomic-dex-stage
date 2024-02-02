@@ -26,7 +26,7 @@ const getImage = async (params, isMobile) => {
   return data.data;
 };
 
-const generateUrl = async (params, campaign_uuid, campaign_name, redirect) => {
+const generateUrl = async (params, campaign_uuid, campaign_name, redirect, banner_uuid) => {
   const curUrl = window.location.href;
   const ts = Date.now().toString();
   const api_key = encryptApi(params.apiKey, 26);
@@ -37,6 +37,7 @@ const generateUrl = async (params, campaign_uuid, campaign_name, redirect) => {
     event_type: "CLICK",
     page_name: window.location.host + window.location.pathname,
     slot_id: params.slotId,
+    banner_uuid: banner_uuid ? banner_uuid : '0000-0000-0000-0000'
   });
   window.open(
     redirect +
@@ -84,6 +85,7 @@ const GetitAdPlugin = (props) => {
   const [useCompany, setCompany] = useState("");
   const [useCompanyName, setCompanyName] = useState("");
   const [userDevice, setUserDevice] = useState(false);
+  const [bannerUUID, setBannerUUID] = useState('0000-0000-0000-0000');
 
   useEffect(() => {
     const init = async () => {
@@ -97,6 +99,9 @@ const GetitAdPlugin = (props) => {
       setRedirect(data.redirect_link);
       setCompany(data.campaign_uuid);
       setCompanyName(data.campaign_name);
+      if(data?.banner_uuid) {
+        setBannerUUID(data.banner_uuid)
+      }
     };
 
     init();
@@ -127,7 +132,7 @@ const GetitAdPlugin = (props) => {
       >
         <a
           onClick={async () =>
-            await generateUrl(props, useCompany, useCompanyName, useRedirect)
+            await generateUrl(props, useCompany, useCompanyName, useRedirect, bannerUUID)
           }
         >
           <img
