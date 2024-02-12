@@ -20,7 +20,7 @@ const getImage = async (params, isMobile) => {
     timestamp: ts,
     api_key,
     image_type: isMobile ? "MOBILE" : "DESKTOP",
-    page_name: window.location.host + window.location.pathname,
+    page_name: window.location.pathname,
     slot_id: params.slotId,
   });
   return data.data;
@@ -86,6 +86,7 @@ const GetitAdPlugin = (props) => {
   const [useCompanyName, setCompanyName] = useState("");
   const [userDevice, setUserDevice] = useState(false);
   const [bannerUUID, setBannerUUID] = useState('0000-0000-0000-0000');
+  const [height, setHeight] = useState('0');
 
   useEffect(() => {
     const init = async () => {
@@ -95,6 +96,7 @@ const GetitAdPlugin = (props) => {
       if (!data) {
         return;
       }
+      setHeight('90')
       setImageUrl(data.image_url);
       setRedirect(data.redirect_link);
       setCompany(data.campaign_uuid);
@@ -116,7 +118,7 @@ const GetitAdPlugin = (props) => {
         marginLeft: "auto",
         marginRight: "auto",
         display: "flex",
-        height: !isNaN(props.height) ? props.height.toString() + "px" : "90px",
+        height: height + 'px',
         width: `${userDevice ? 270 + "px" : 728 + "px"}`,
       }}
     >
