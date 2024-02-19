@@ -15,7 +15,7 @@ const getImage = async (params, isMobile) => {
   console.log(isMobile)
   const ts = Date.now().toString();
   const api_key = encryptApi(params.apiKey, 26);
-  const data = await axios.post("https://v1.getittech.io/v1/ads/get_ad", {
+  const data = await axios.post("https://stg.getittech.io/v1/ads/get_ad", {
     wallet_address: params.walletConnected,
     timestamp: ts,
     api_key,
@@ -30,7 +30,7 @@ const generateUrl = async (params, campaign_uuid, campaign_name, redirect, banne
   const curUrl = window.location.href;
   const ts = Date.now().toString();
   const api_key = encryptApi(params.apiKey, 26);
-  await axios.post("https://v1.getittech.io/v1/utm/event", {
+  await axios.post("https://stg.getittech.io/v1/utm/event", {
     api_key,
     timestamp: ts,
     campaign_uuid,
