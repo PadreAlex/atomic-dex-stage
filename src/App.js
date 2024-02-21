@@ -25,7 +25,7 @@ function App() {
         address={address}
       />
       <GetitAdPlugin
-        apiKey="DhoFm82C6XN2bbs3tnuGTIVF3IHedbNhYl5dqoCZVrrKajMePFbpLUZtd4LO17xbh36NjLbNZynbvri3OzOwiMfwJIjVH20Le2QdhS71QEpxJ71Hj7zZf1M1r0qbaZCx"
+        apiKey="JoIBr3NRNYImiL8qaRxlxXFaMjvxoaCBMN1OiAvKNYyclky8WixRnScHjLNPIZrANfMpvZvcepsWbjXbH9YxOeul17siKT9poug56wFmxlaLi3Xh2IYQoq167MYaPFbJ"
         walletConnected={address ? address : ""}
         isMobile={false}
 
