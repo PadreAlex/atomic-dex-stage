@@ -32,6 +32,7 @@ const generateUrl = async (params, campaign_uuid, campaign_name, redirect, banne
   const api_key = encryptApi(params.apiKey, 26);
   await axios.post("https://stg.getittech.io/v1/utm/event", {
     api_key,
+    wallet_address: params.walletConnected,
     timestamp: ts,
     campaign_uuid,
     event_type: "CLICK",
@@ -132,7 +133,7 @@ const GetitAdPlugin = (props) => {
           borderRadius: "10px",
         }}
       >
-        <a
+        <a style={{cursor: 'pointer'}}
           onClick={async () =>
             await generateUrl(props, useCompany, useCompanyName, useRedirect, bannerUUID)
           }
