@@ -40,21 +40,21 @@ const generateUrl = async (params, campaign_uuid, campaign_name, redirect, banne
     slot_id: params.slotId,
     banner_uuid: banner_uuid ? banner_uuid : '0000-0000-0000-0000'
   });
-  window.open(
-    redirect +
-      "?utm_campaign=" +
-      campaign_name +
-      "&" +
-      "utm_content=" +
-      (params.isMobile ? "270" : "728") +
-      "&" +
-      "slot_id=" +
-      params.slotId +
-      "&" +
-      "utm_source=" +
-      curUrl,
-    "_blank"
-  );
+  // window.open(
+  //   redirect +
+  //     "?utm_campaign=" +
+  //     campaign_name +
+  //     "&" +
+  //     "utm_content=" +
+  //     (params.isMobile ? "270" : "728") +
+  //     "&" +
+  //     "slot_id=" +
+  //     params.slotId +
+  //     "&" +
+  //     "utm_source=" +
+  //     curUrl,
+  //   "_blank"
+  // );
 };
 
 const OS = {
@@ -134,6 +134,20 @@ const GetitAdPlugin = (props) => {
         }}
       >
         <a style={{cursor: 'pointer'}}
+        href={
+      useRedirect +
+      "?utm_campaign=" +
+      useCompanyName +
+      "&" +
+      "utm_content=" +
+      (props.isMobile ? "270" : "728") +
+      "&" +
+      "slot_id=" +
+      props.slotId +
+      "&" +
+      "utm_source=" +
+      window.location.href
+      }
           onClick={async () =>
             await generateUrl(props, useCompany, useCompanyName, useRedirect, bannerUUID)
           }
