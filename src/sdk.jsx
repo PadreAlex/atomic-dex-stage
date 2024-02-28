@@ -40,21 +40,6 @@ const generateUrl = async (params, campaign_uuid, campaign_name, redirect, banne
     slot_id: params.slotId,
     banner_uuid: banner_uuid ? banner_uuid : '0000-0000-0000-0000'
   });
-  // window.open(
-  //   redirect +
-  //     "?utm_campaign=" +
-  //     campaign_name +
-  //     "&" +
-  //     "utm_content=" +
-  //     (params.isMobile ? "270" : "728") +
-  //     "&" +
-  //     "slot_id=" +
-  //     params.slotId +
-  //     "&" +
-  //     "utm_source=" +
-  //     curUrl,
-  //   "_blank"
-  // );
 };
 
 const OS = {
@@ -92,7 +77,11 @@ const GetitAdPlugin = (props) => {
   useEffect(() => {
     const init = async () => {
       const isMobile = getUserDevice();
-      setUserDevice(isMobile);
+      if (props?.isMobile) {
+        setUserDevice(props?.isMobile)
+      } else {
+        setUserDevice(isMobile);
+      }
       const data = await getImage(props, isMobile);
       if (!data) {
         return;
