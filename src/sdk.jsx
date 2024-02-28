@@ -75,7 +75,9 @@ const GetitAdPlugin = (props) => {
 
   useEffect(() => {
     const init = async () => {
+      console.log(props.isMobile)
       const isMobile = props.isMobile ? props.isMobile : getUserDevice();
+      console.log(isMobile)
       setUserDevice(isMobile);
       const data = await getImage(props, isMobile);
       if (!data) {
