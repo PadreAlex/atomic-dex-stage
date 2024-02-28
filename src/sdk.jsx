@@ -102,7 +102,7 @@ const GetitAdPlugin = (props) => {
       setRedirect(data.redirect_link);
       setCompany(data.campaign_uuid);
       setCompanyName(data.campaign_name);
-      if(data?.banner_uuid) {
+      if (data?.banner_uuid) {
         setBannerUUID(data.banner_uuid)
       }
     };
@@ -133,21 +133,22 @@ const GetitAdPlugin = (props) => {
           borderRadius: "10px",
         }}
       >
-        <a style={{cursor: 'pointer'}}
-        href={
-      useRedirect +
-      "?utm_campaign=" +
-      useCompanyName +
-      "&" +
-      "utm_content=" +
-      (props.isMobile ? "270" : "728") +
-      "&" +
-      "slot_id=" +
-      props.slotId +
-      "&" +
-      "utm_source=" +
-      window.location.href
-      }
+        <a style={{ cursor: 'pointer' }}
+          href={
+            useRedirect +
+            "?utm_campaign=" +
+            useCompanyName +
+            "&" +
+            "utm_content=" +
+            (props.isMobile ? "270" : "728") +
+            "&" +
+            "slot_id=" +
+            props.slotId +
+            "&" +
+            "utm_source=" +
+            window.location.href
+          }
+          target="_blank"
           onClick={async () =>
             await generateUrl(props, useCompany, useCompanyName, useRedirect, bannerUUID)
           }
