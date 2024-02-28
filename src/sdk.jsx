@@ -50,7 +50,6 @@ const OS = {
 
 const getUserDevice = () => {
   const ua = navigator.userAgent;
-
   if (ua.toLowerCase().includes(OS.iPhone.toLowerCase()) || ua.toLowerCase().includes(OS.android.toLowerCase())) {
     console.log(OS.iPhone)
     return true;
