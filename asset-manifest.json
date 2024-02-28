@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/atomic-dex-stage/static/css/main.4716e02e.css",
-    "main.js": "/atomic-dex-stage/static/js/main.2f47e802.js",
+    "main.js": "/atomic-dex-stage/static/js/main.0bc336ea.js",
     "static/media/moralis-logo.svg": "/atomic-dex-stage/static/media/moralis-logo.aa658eaa416895465a8fcf129380ab15.svg",
     "index.html": "/atomic-dex-stage/index.html",
     "static/media/eth.svg": "/atomic-dex-stage/static/media/eth.df265e367364f285053a1285ad8d418d.svg",
     "main.4716e02e.css.map": "/atomic-dex-stage/static/css/main.4716e02e.css.map",
-    "main.2f47e802.js.map": "/atomic-dex-stage/static/js/main.2f47e802.js.map"
+    "main.0bc336ea.js.map": "/atomic-dex-stage/static/js/main.0bc336ea.js.map"
   },
   "entrypoints": [
     "static/css/main.4716e02e.css",
-    "static/js/main.2f47e802.js"
+    "static/js/main.0bc336ea.js"
   ]
 }
