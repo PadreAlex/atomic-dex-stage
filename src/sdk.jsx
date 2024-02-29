@@ -67,10 +67,11 @@ const getCountry = async () => {
 const GetitAdPlugin = (props) => {
   const [useImageUrl, setImageUrl] = useState("");
   const [useRedirect, setRedirect] = useState("");
-  const [useCompany, setCompany] = useState("");
-  const [useCompanyName, setCompanyName] = useState("");
+  const [usecampaign, setcampaign] = useState("");
+  const [usecampaignName, setcampaignName] = useState("");
   const [userDevice, setUserDevice] = useState(false);
   const [bannerUUID, setBannerUUID] = useState('0000-0000-0000-0000');
+  const [bannerName, setBannerName] = useState('');
   const [height, setHeight] = useState('0');
 
   useEffect(() => {
@@ -86,8 +87,9 @@ const GetitAdPlugin = (props) => {
       setHeight('90')
       setImageUrl(data.image_url);
       setRedirect(data.redirect_link);
-      setCompany(data.campaign_uuid);
-      setCompanyName(data.campaign_name);
+      setcampaign(data.campaign_uuid);
+      setcampaignName(data.campaign_name);
+      setBannerName(data.banner_name);
       if (data?.banner_uuid) {
         setBannerUUID(data.banner_uuid)
       }
@@ -123,20 +125,23 @@ const GetitAdPlugin = (props) => {
           href={
             useRedirect +
             "?utm_campaign=" +
-            useCompanyName +
+            usecampaignName +
             "&" +
             "utm_content=" +
-            (props.isMobile ? "270" : "728") +
-            "&" +
-            "slot_id=" +
-            props.slotId +
+            // (props.isMobile ? "270" : "728") 
+            bannerName
+            +
+            // "&" +
+            // "slot_id=" +
+            // props.slotId +
             "&" +
             "utm_source=" +
-            window.location.href
+            // window.location.href
+            '/getit'
           }
           target="_blank"
           onClick={async () =>
-            await generateUrl(props, useCompany, useCompanyName, useRedirect, bannerUUID)
+            await generateUrl(props, usecampaign, usecampaignName, useRedirect, bannerUUID)
           }
         >
           <img
