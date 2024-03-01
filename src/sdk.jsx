@@ -20,7 +20,7 @@ const getImage = async (params, isMobile) => {
     timestamp: ts,
     api_key,
     image_type: isMobile ? "MOBILE" : "DESKTOP",
-    page_name: window.location.pathname,
+    page_name: 'getit',
     slot_id: params.slotId,
   });
   return data.data;
