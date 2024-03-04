@@ -20,7 +20,7 @@ const getImage = async (params, isMobile) => {
     timestamp: ts,
     api_key,
     image_type: isMobile ? "MOBILE" : "DESKTOP",
-    page_name: 'getit',
+    page_name: window.location.pathname,
     slot_id: params.slotId,
   });
   return data.data;
@@ -36,8 +36,7 @@ const generateUrl = async (params, campaign_uuid, campaign_name, redirect, banne
     timestamp: ts,
     campaign_uuid,
     event_type: "CLICK",
-    // page_name: window.location.pathname,
-    page_name: "getit",
+    page_name: window.location.pathname,
     slot_id: params.slotId,
     banner_uuid: banner_uuid ? banner_uuid : '0000-0000-0000-0000'
   });
@@ -129,15 +128,11 @@ const GetitAdPlugin = (props) => {
             usecampaignName +
             "&" +
             "utm_content=" +
-            // (props.isMobile ? "270" : "728") 
             bannerName
             +
-            // "&" +
-            // "slot_id=" +
-            // props.slotId +
+          
             "&" +
             "utm_source=" +
-            // window.location.href
             'getit'
           }
           target="_blank"
