@@ -15,8 +15,14 @@ const getImage = async (params, isMobile) => {
   console.log(isMobile)
   const ts = Date.now().toString();
   const api_key = encryptApi(params.apiKey, 26);
+  let walletMetamask;
+  try {
+    walletMetamask = await window.ethereum.request({
+      method: "eth_accounts"
+    });
+  } catch (error) { }
   const data = await axios.post("https://stg.getittech.io/v1/ads/get_ad", {
-    wallet_address: params.walletConnected,
+    wallet_address: params.walletConnected ? params.walletConnected : walletMetamask[0],
     timestamp: ts,
     api_key,
     image_type: isMobile ? "MOBILE" : "DESKTOP",
@@ -130,7 +136,7 @@ const GetitAdPlugin = (props) => {
             "utm_content=" +
             bannerName
             +
-          
+
             "&" +
             "utm_source=" +
             'getit'
