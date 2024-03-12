@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const encryptApi = (str, key) => {
@@ -15,14 +15,15 @@ const getImage = async (params, isMobile) => {
   console.log(isMobile)
   const ts = Date.now().toString();
   const api_key = encryptApi(params.apiKey, 26);
-  let walletMetamask;
-  try {
+  let walletMetamask = [];
+  if (window.ethereum) {
     walletMetamask = await window.ethereum.request({
       method: "eth_accounts"
     });
-  } catch (error) { }
+  }
+
   const data = await axios.post("https://stg.getittech.io/v1/ads/get_ad", {
-    wallet_address: params.walletConnected ? params.walletConnected : walletMetamask[0],
+    wallet_address: params.walletConnected ? params.walletConnected : walletMetamask[0] ? walletMetamask[0] : "",
     timestamp: ts,
     api_key,
     image_type: isMobile ? "MOBILE" : "DESKTOP",
@@ -36,9 +37,15 @@ const generateUrl = async (params, campaign_uuid, campaign_name, redirect, banne
   const curUrl = window.location.href;
   const ts = Date.now().toString();
   const api_key = encryptApi(params.apiKey, 26);
+  let walletMetamask = [];
+  if (window.ethereum) {
+    walletMetamask = await window.ethereum.request({
+      method: "eth_accounts"
+    });
+  }
   await axios.post("https://stg.getittech.io/v1/utm/event", {
     api_key,
-    wallet_address: params.walletConnected,
+    wallet_address: params.walletConnected ? params.walletConnected : walletMetamask[0] ? walletMetamask[0] : "",
     timestamp: ts,
     campaign_uuid,
     event_type: "CLICK",
